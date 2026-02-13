@@ -4,6 +4,13 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { personalInfo } from "@/lib/data";
 import { FiMail, FiGithub, FiLinkedin } from "react-icons/fi";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const Contact = () => {
   const [ref, inView] = useInView({
@@ -11,8 +18,41 @@ const Contact = () => {
     threshold: 0.1,
   });
 
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!contentRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const elements = contentRef.current?.querySelectorAll(".contact-item");
+      if (elements) {
+        gsap.fromTo(
+          elements,
+          {
+            y: 30,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.6,
+            stagger: 0.1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: contentRef.current,
+              start: "top 70%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+    }, contentRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="contact" className="relative py-20 md:py-32 bg-white">
+    <section id="contact" className="relative py-20 md:py-32">
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         <motion.div
           ref={ref}
@@ -24,10 +64,10 @@ const Contact = () => {
           <div className="section-number mb-4">6  |  Get in Touch</div>
 
           {/* Main Content */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mb-20">
+          <div ref={contentRef} className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mb-20">
             {/* Left Column */}
-            <div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-8">
+            <div className="contact-item">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8">
                 Let&apos;s work together
               </h2>
               <p className="text-xl text-gray-600 leading-relaxed">
@@ -38,38 +78,38 @@ const Contact = () => {
 
             {/* Right Column - Contact Info */}
             <div className="space-y-8">
-              <div>
+              <div className="contact-item">
                 <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
                   Email
                 </h3>
                 <a
                   href={`mailto:${personalInfo.email}`}
-                  className="text-xl text-gray-900 hover:text-gray-600 transition-colors"
+                  className="text-xl hover:text-gray-600 transition-colors"
                 >
                   {personalInfo.email}
                 </a>
               </div>
 
-              <div>
+              <div className="contact-item">
                 <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
                   Phone
                 </h3>
                 <a
                   href={`tel:${personalInfo.phone}`}
-                  className="text-xl text-gray-900 hover:text-gray-600 transition-colors"
+                  className="text-xl hover:text-gray-600 transition-colors"
                 >
                   {personalInfo.phone}
                 </a>
               </div>
 
-              <div>
+              <div className="contact-item">
                 <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
                   Location
                 </h3>
-                <p className="text-xl text-gray-900">{personalInfo.location}</p>
+                <p className="text-xl">{personalInfo.location}</p>
               </div>
 
-              <div>
+              <div className="contact-item">
                 <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
                   Connect
                 </h3>

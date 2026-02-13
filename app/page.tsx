@@ -7,19 +7,22 @@ import Skills from "@/components/Skills";
 import Experience from "@/components/Experience";
 import Services from "@/components/Services";
 import Contact from "@/components/Contact";
+import ScrollProvider from "@/components/ScrollProvider";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white">
-      <Navigation />
-      <Hero />
-      <About />
-      <Projects />
-      <Testimonials />
-      <Skills />
-      <Experience />
-      <Services />
-      <Contact />
-    </main>
+    <ScrollProvider>
+      <main className="min-h-screen">
+        <Navigation />
+        <Hero />
+        <About />
+        <Projects />
+        <Testimonials />
+        <Skills />
+        <Experience />
+        <Services />
+        <Contact />
+      </main>
+    </ScrollProvider>
   );
 }

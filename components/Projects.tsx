@@ -4,6 +4,13 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { projects } from "@/lib/data";
 import { FiArrowUpRight } from "react-icons/fi";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const Projects = () => {
   const [ref, inView] = useInView({
@@ -12,7 +19,7 @@ const Projects = () => {
   });
 
   return (
-    <section id="work" className="relative py-20 md:py-32 bg-white">
+    <section id="work" className="relative py-20 md:py-32">
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         <motion.div
           ref={ref}
@@ -24,7 +31,7 @@ const Projects = () => {
           <div className="section-number mb-4">2  |  Recent Work</div>
 
           {/* Section Title */}
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-16 max-w-4xl">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-16 max-w-4xl">
             Recent successful projects
           </h2>
 
@@ -62,12 +69,64 @@ interface ProjectCardProps {
 }
 
 const ProjectCard = ({ project, index, inView }: ProjectCardProps) => {
+  const cardRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    if (!cardRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Scale and morph effect on scroll
+      gsap.fromTo(
+        cardRef.current,
+        {
+          scale: 0.95,
+          opacity: 0,
+        },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: cardRef.current,
+            start: "top 80%",
+            end: "top 30%",
+            scrub: 1,
+          },
+        }
+      );
+
+      // Hover morph effect
+      const card = cardRef.current;
+      if (card) {
+        card.addEventListener("mouseenter", () => {
+          gsap.to(card, {
+            scale: 1.02,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+
+        card.addEventListener("mouseleave", () => {
+          gsap.to(card, {
+            scale: 1,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+      }
+    }, cardRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <motion.a
+      ref={cardRef}
       href={project.liveUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="block card rounded-2xl overflow-hidden group cursor-pointer"
+      className="block card rounded-2xl overflow-hidden group cursor-pointer will-change-transform"
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: 0.1 * index, duration: 0.6 }}
@@ -97,7 +156,7 @@ const ProjectCard = ({ project, index, inView }: ProjectCardProps) => {
             </div>
 
             {/* Title */}
-            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 group-hover:text-gray-600 transition-colors">
+            <h3 className="text-2xl md:text-3xl font-bold mb-4 group-hover:text-gray-600 transition-colors">
               {project.title}
             </h3>
 
@@ -118,7 +177,7 @@ const ProjectCard = ({ project, index, inView }: ProjectCardProps) => {
           </div>
 
           {/* CTA */}
-          <div className="flex items-center text-gray-900 font-medium group-hover:gap-2 transition-all">
+          <div className="flex items-center font-medium group-hover:gap-2 transition-all">
             View Project
             <FiArrowUpRight className="ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" size={20} />
           </div>

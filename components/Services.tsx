@@ -3,12 +3,54 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { FiCode, FiDatabase, FiCpu } from "react-icons/fi";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const Services = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!gridRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const cards = gridRef.current?.querySelectorAll(".service-card");
+      if (cards) {
+        gsap.fromTo(
+          cards,
+          {
+            y: 40,
+            opacity: 0,
+            scale: 0.95,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.7,
+            stagger: 0.15,
+            ease: "back.out(1.2)",
+            scrollTrigger: {
+              trigger: gridRef.current,
+              start: "top 70%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+    }, gridRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const services = [
     {
@@ -47,7 +89,7 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="relative py-20 md:py-32 bg-white">
+    <section id="services" className="relative py-20 md:py-32">
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         <motion.div
           ref={ref}
@@ -59,7 +101,7 @@ const Services = () => {
           <div className="section-number mb-4">7  |  Services</div>
 
           {/* Section Title */}
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 max-w-4xl">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 max-w-4xl">
             How I can help
           </h2>
           <p className="text-xl text-gray-600 mb-16 max-w-3xl">
@@ -67,7 +109,7 @@ const Services = () => {
           </p>
 
           {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
               <ServiceCard
                 key={service.title}
@@ -99,7 +141,7 @@ const ServiceCard = ({ service, index, inView }: ServiceCardProps) => {
 
   return (
     <motion.div
-      className="card p-8 rounded-2xl"
+      className="service-card card p-8 rounded-2xl"
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: 0.1 * index, duration: 0.6 }}
@@ -108,7 +150,7 @@ const ServiceCard = ({ service, index, inView }: ServiceCardProps) => {
         <Icon size={24} />
       </div>
 
-      <h3 className="text-2xl font-bold text-gray-900 mb-4">{service.title}</h3>
+      <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
       <p className="text-gray-600 mb-6 leading-relaxed">{service.description}</p>
 
       <ul className="space-y-3">

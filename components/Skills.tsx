@@ -3,6 +3,13 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { skills } from "@/lib/data";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const Skills = () => {
   const [ref, inView] = useInView({
@@ -10,8 +17,41 @@ const Skills = () => {
     threshold: 0.1,
   });
 
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!gridRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const categories = gridRef.current?.querySelectorAll(".skill-category");
+      if (categories) {
+        gsap.fromTo(
+          categories,
+          {
+            x: -30,
+            opacity: 0,
+          },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.6,
+            stagger: 0.12,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: gridRef.current,
+              start: "top 70%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+    }, gridRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="skills" className="relative py-20 md:py-32 bg-white">
+    <section id="skills" className="relative py-20 md:py-32">
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         <motion.div
           ref={ref}
@@ -23,7 +63,7 @@ const Skills = () => {
           <div className="section-number mb-4">4  |  Technical Expertise</div>
 
           {/* Section Title */}
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 max-w-4xl">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 max-w-4xl">
             Technologies I work with
           </h2>
           <p className="text-xl text-gray-600 mb-16 max-w-3xl">
@@ -31,7 +71,7 @@ const Skills = () => {
           </p>
 
           {/* Skills Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+          <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {Object.entries(skills).map(([category, items], index) => (
               <SkillCategory
                 key={category}
@@ -67,11 +107,12 @@ const SkillCategory = ({ category, items, index, inView }: SkillCategoryProps) =
 
   return (
     <motion.div
+      className="skill-category"
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: 0.1 * index, duration: 0.6 }}
     >
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <h3 className="text-lg font-semibold mb-4">
         {categoryNames[category]}
       </h3>
       <div className="space-y-3">

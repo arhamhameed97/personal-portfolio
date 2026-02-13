@@ -3,10 +3,12 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
+import { useScroll } from "./ScrollProvider";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { textColor, backgroundColor } = useScroll();
 
   const navItems = [
     { name: "Work", href: "#work" },
@@ -14,6 +16,11 @@ const Navigation = () => {
     { name: "Services", href: "#services" },
     { name: "Contact", href: "#contact" },
   ];
+
+  // Determine if background is dark
+  const isDark = backgroundColor && (backgroundColor.includes("rgb") 
+    ? parseInt(backgroundColor.split(",")[0].split("(")[1]) < 128
+    : parseInt(backgroundColor.substring(1, 3), 16) < 128);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,9 +48,12 @@ const Navigation = () => {
         transition={{ duration: 0.5 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? "bg-white/80 backdrop-blur-md border-b border-gray-200"
+            ? isDark 
+              ? "bg-black/80 backdrop-blur-md border-b border-white/10"
+              : "bg-white/80 backdrop-blur-md border-b border-gray-200"
             : "bg-transparent"
         }`}
+        style={{ color: textColor }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
           <div className="flex items-center justify-between h-20">
@@ -54,7 +64,8 @@ const Navigation = () => {
                 e.preventDefault();
                 scrollToSection("#home");
               }}
-              className="text-xl font-bold text-gray-900 cursor-pointer hover:text-gray-600 transition-colors"
+              className="text-xl font-bold cursor-pointer transition-colors"
+              style={{ color: textColor, opacity: 0.9 }}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -71,7 +82,8 @@ const Navigation = () => {
                     e.preventDefault();
                     scrollToSection(item.href);
                   }}
-                  className="text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors cursor-pointer"
+                  className="text-sm font-medium transition-colors cursor-pointer"
+                  style={{ color: textColor, opacity: 0.8 }}
                   whileHover={{ y: -2 }}
                 >
                   {item.name}
@@ -82,7 +94,9 @@ const Navigation = () => {
             {/* CTA Button */}
             <motion.a
               href="mailto:arham.hameed@uni.minerva.edu"
-              className="hidden md:block px-6 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-colors"
+              className={`hidden md:block px-6 py-2.5 text-sm font-medium rounded-full transition-colors ${
+                isDark ? "bg-white text-black hover:bg-gray-200" : "bg-gray-900 text-white hover:bg-gray-800"
+              }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -91,7 +105,8 @@ const Navigation = () => {
 
             {/* Mobile Menu Button */}
             <motion.button
-              className="md:hidden text-gray-900 text-2xl"
+              className="md:hidden text-2xl"
+              style={{ color: textColor }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               whileTap={{ scale: 0.9 }}
             >

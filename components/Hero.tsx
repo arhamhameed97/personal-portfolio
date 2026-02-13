@@ -2,8 +2,82 @@
 
 import { motion } from "framer-motion";
 import { personalInfo } from "@/lib/data";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const Hero = () => {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const buttonsRef = useRef<HTMLDivElement>(null);
+  const companiesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!heroRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Parallax fade out effect on hero content
+      if (headingRef.current) {
+        gsap.to(headingRef.current, {
+          y: -100,
+          opacity: 0,
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      }
+
+      if (subtitleRef.current) {
+        gsap.to(subtitleRef.current, {
+          y: -80,
+          opacity: 0,
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      }
+
+      if (buttonsRef.current) {
+        gsap.to(buttonsRef.current, {
+          y: -60,
+          opacity: 0,
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      }
+
+      if (companiesRef.current) {
+        gsap.to(companiesRef.current, {
+          y: -40,
+          opacity: 0,
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      }
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const scrollToWork = () => {
     const element = document.getElementById("work");
     if (element) {
@@ -14,7 +88,8 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center bg-white overflow-hidden pt-20"
+      ref={heroRef}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 py-20 md:py-32">
         <motion.div
@@ -23,9 +98,10 @@ const Hero = () => {
           transition={{ duration: 0.8 }}
           className="text-center max-w-5xl mx-auto"
         >
-          {/* Main Heading */}
+          {/* Main Heading with parallax */}
           <motion.h1
-            className="text-5xl md:text-7xl lg:text-8xl font-bold text-gray-900 mb-8 leading-tight"
+            ref={headingRef}
+            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight will-change-transform"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
@@ -33,9 +109,10 @@ const Hero = () => {
             Full-Stack Developer & AI/ML Engineer
           </motion.h1>
 
-          {/* Subtitle */}
+          {/* Subtitle with parallax */}
           <motion.p
-            className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed"
+            ref={subtitleRef}
+            className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed will-change-transform"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
@@ -44,9 +121,10 @@ const Hero = () => {
             From teaching 100+ students to serving 3000+ enterprise clients.
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons with parallax */}
           <motion.div
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            ref={buttonsRef}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 will-change-transform"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
@@ -69,9 +147,10 @@ const Hero = () => {
             </motion.a>
           </motion.div>
 
-          {/* Clients/Companies Section */}
+          {/* Clients/Companies Section with parallax */}
           <motion.div
-            className="mt-20 pt-12 border-t border-gray-200"
+            ref={companiesRef}
+            className="mt-20 pt-12 border-t border-gray-200 will-change-transform"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.8 }}
