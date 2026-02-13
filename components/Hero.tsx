@@ -12,6 +12,7 @@ if (typeof window !== "undefined") {
 
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
@@ -21,6 +22,21 @@ const Hero = () => {
     if (!heroRef.current) return;
 
     const ctx = gsap.context(() => {
+      // Image morphing and scaling effect
+      if (imageRef.current) {
+        gsap.to(imageRef.current, {
+          scale: 1.2,
+          y: 150,
+          opacity: 0.3,
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      }
+
       // Parallax fade out effect on hero content
       if (headingRef.current) {
         gsap.to(headingRef.current, {
@@ -91,29 +107,29 @@ const Hero = () => {
       ref={heroRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 py-20 md:py-32">
+      {/* Background Image with Morphing Effect */}
+      <motion.div
+        ref={imageRef}
+        className="absolute inset-0 will-change-transform"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/80 to-white z-10" />
+        <img 
+          src="/images/headshot.jpg" 
+          alt="Arham Hameed"
+          className="w-full h-full object-cover object-center grayscale opacity-20"
+        />
+      </motion.div>
+
+      <div className="relative z-20 max-w-7xl mx-auto px-6 md:px-8 lg:px-12 py-20 md:py-32">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center max-w-5xl mx-auto"
         >
-          {/* Professional Photo */}
-          <motion.div
-            className="mb-12 flex justify-center"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.1, duration: 0.8 }}
-          >
-            <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-gray-200 shadow-2xl">
-              <img 
-                src="/images/headshot.jpg" 
-                alt="Arham Hameed"
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
-              />
-            </div>
-          </motion.div>
-
           {/* Main Heading with parallax */}
           <motion.h1
             ref={headingRef}
