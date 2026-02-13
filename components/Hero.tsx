@@ -79,7 +79,7 @@ const Hero = () => {
       id="home"
       ref={heroRef}
       className="relative min-h-screen flex items-center overflow-hidden pt-20"
-      style={{ backgroundColor: "#fafafa" }}
+      style={{ backgroundColor: "#f8f8f8" }}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-5rem)]">

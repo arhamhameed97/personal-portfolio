@@ -53,7 +53,7 @@ const Testimonials = () => {
   }, []);
 
   return (
-    <section id="testimonials" className="relative py-20 md:py-32">
+    <section id="testimonials" className="relative py-20 md:py-32" style={{ backgroundColor: "#f0f0f0" }}>
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         <motion.div
           ref={ref}

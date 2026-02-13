@@ -89,7 +89,7 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="relative py-20 md:py-32">
+    <section id="services" className="relative py-20 md:py-32" style={{ backgroundColor: "#f8f8f8" }}>
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         <motion.div
           ref={ref}
