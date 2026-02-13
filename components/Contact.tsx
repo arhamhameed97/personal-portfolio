@@ -103,7 +103,7 @@ const Contact = () => {
               animate={inView ? { opacity: 1 } : {}}
               transition={{ delay: 0.6, duration: 0.8 }}
             >
-              I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
+              I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
             </motion.p>
           </div>
 

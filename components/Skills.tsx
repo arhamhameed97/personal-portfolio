@@ -6,7 +6,7 @@ import { skills } from "@/lib/data";
 import { 
   SiPython, SiJavascript, SiTypescript, SiReact, SiNextdotjs, 
   SiNodedotjs, SiPostgresql, SiTailwindcss, SiGit, SiDocker,
-  SiAmazonaws, SiVercel, SiFigma, SiJira, SiNumpy, SiPandas
+  SiAmazon, SiVercel, SiFigma, SiJira, SiNumpy, SiPandas
 } from "react-icons/si";
 import { FaJava, FaDatabase } from "react-icons/fa";
 
@@ -27,7 +27,7 @@ const Skills = () => {
     "Tailwind CSS": SiTailwindcss,
     Git: SiGit,
     Docker: SiDocker,
-    AWS: SiAmazonaws,
+    AWS: SiAmazon,
     Vercel: SiVercel,
     Figma: SiFigma,
     Jira: SiJira,
