@@ -98,6 +98,22 @@ const Hero = () => {
           transition={{ duration: 0.8 }}
           className="text-center max-w-5xl mx-auto"
         >
+          {/* Professional Photo */}
+          <motion.div
+            className="mb-12 flex justify-center"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1, duration: 0.8 }}
+          >
+            <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-gray-200 shadow-2xl">
+              <img 
+                src="/images/headshot.jpg" 
+                alt="Arham Hameed"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+              />
+            </div>
+          </motion.div>
+
           {/* Main Heading with parallax */}
           <motion.h1
             ref={headingRef}
