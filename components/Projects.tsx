@@ -3,8 +3,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { projects } from "@/lib/data";
-import { FiGithub, FiExternalLink } from "react-icons/fi";
-import Image from "next/image";
+import { FiArrowUpRight } from "react-icons/fi";
 
 const Projects = () => {
   const [ref, inView] = useInView({
@@ -13,39 +12,24 @@ const Projects = () => {
   });
 
   return (
-    <section id="projects" className="relative py-20 md:py-32 overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-[#0a0a0a]" />
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl" />
-
-      <div className="relative z-10 container mx-auto px-4 md:px-6 lg:px-8">
+    <section id="work" className="relative py-20 md:py-32 bg-white">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 50 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
         >
+          {/* Section Number */}
+          <div className="section-number mb-4">2  |  Recent Work</div>
+
           {/* Section Title */}
-          <div className="text-center mb-16">
-            <motion.h2
-              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2, duration: 0.8 }}
-            >
-              Featured <span className="text-gradient">Projects</span>
-            </motion.h2>
-            <motion.div
-              className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"
-              initial={{ width: 0 }}
-              animate={inView ? { width: 96 } : {}}
-              transition={{ delay: 0.4, duration: 0.8 }}
-            />
-          </div>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-16 max-w-4xl">
+            Recent successful projects
+          </h2>
 
           {/* Projects Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          <div className="space-y-8">
             {projects.map((project, index) => (
               <ProjectCard
                 key={project.id}
@@ -79,92 +63,68 @@ interface ProjectCardProps {
 
 const ProjectCard = ({ project, index, inView }: ProjectCardProps) => {
   return (
-    <motion.div
-      className="glass rounded-2xl overflow-hidden group cursor-pointer"
-      initial={{ opacity: 0, y: 50 }}
+    <motion.a
+      href={project.liveUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block card rounded-2xl overflow-hidden group cursor-pointer"
+      initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ delay: 0.2 + index * 0.1, duration: 0.8 }}
-      whileHover={{ y: -10, transition: { duration: 0.3 } }}
+      transition={{ delay: 0.1 * index, duration: 0.6 }}
     >
-      {/* Project Image */}
-      <div className="relative h-48 md:h-56 bg-gradient-to-br from-blue-500/20 to-purple-500/20 overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-6xl font-bold text-white/10">{project.id}</div>
-        </div>
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"
-          initial={{ opacity: 0 }}
-          whileHover={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-        />
-      </div>
-
-      {/* Project Content */}
-      <div className="p-6">
-        {/* Title */}
-        <h3 className="text-xl md:text-2xl font-bold text-white mb-3 group-hover:text-gradient transition-all">
-          {project.title}
-        </h3>
-
-        {/* Description */}
-        <p className="text-gray-400 text-sm md:text-base mb-4 line-clamp-3">
-          {project.description}
-        </p>
-
-        {/* Tech Stack */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {project.techStack.slice(0, 4).map((tech) => (
-            <span
-              key={tech}
-              className="px-3 py-1 text-xs bg-blue-500/10 text-blue-400 rounded-full border border-blue-500/20"
-            >
-              {tech}
-            </span>
-          ))}
-          {project.techStack.length > 4 && (
-            <span className="px-3 py-1 text-xs bg-purple-500/10 text-purple-400 rounded-full border border-purple-500/20">
-              +{project.techStack.length - 4}
-            </span>
-          )}
+      <div className="grid grid-cols-1 lg:grid-cols-2">
+        {/* Image/Visual Side */}
+        <div className="relative h-64 lg:h-96 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-8xl font-bold text-gray-300">{project.id}</div>
+          </div>
+          <div className="absolute inset-0 bg-gray-900/0 group-hover:bg-gray-900/10 transition-colors duration-300" />
         </div>
 
-        {/* Highlights */}
-        <div className="mb-4">
-          {project.highlights.slice(0, 2).map((highlight) => (
-            <div key={highlight} className="flex items-center gap-2 text-sm text-gray-400 mb-1">
-              <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-              {highlight}
+        {/* Content Side */}
+        <div className="p-8 md:p-12 flex flex-col justify-between">
+          <div>
+            {/* Tech Stack Pills */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              {project.techStack.slice(0, 3).map((tech) => (
+                <span
+                  key={tech}
+                  className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-full"
+                >
+                  {tech}
+                </span>
+              ))}
             </div>
-          ))}
-        </div>
 
-        {/* Links */}
-        <div className="flex gap-4">
-          <motion.a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg text-white font-medium text-sm glow"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <FiExternalLink size={16} />
-            Live Demo
-          </motion.a>
-          <motion.a
-            href={project.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 px-4 py-2 glass rounded-lg text-white font-medium text-sm border border-white/20"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <FiGithub size={16} />
-            Code
-          </motion.a>
+            {/* Title */}
+            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 group-hover:text-gray-600 transition-colors">
+              {project.title}
+            </h3>
+
+            {/* Description */}
+            <p className="text-gray-600 mb-6 leading-relaxed">
+              {project.longDescription}
+            </p>
+
+            {/* Highlights/Metrics */}
+            <div className="space-y-2 mb-6">
+              {project.highlights.map((highlight) => (
+                <div key={highlight} className="flex items-start gap-3">
+                  <div className="w-1.5 h-1.5 bg-gray-900 rounded-full mt-2 flex-shrink-0" />
+                  <p className="text-sm text-gray-600">{highlight}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="flex items-center text-gray-900 font-medium group-hover:gap-2 transition-all">
+            View Project
+            <FiArrowUpRight className="ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" size={20} />
+          </div>
         </div>
       </div>
-    </motion.div>
+    </motion.a>
   );
 };
 

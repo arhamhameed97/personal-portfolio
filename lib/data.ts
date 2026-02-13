@@ -110,3 +110,30 @@ export const education = {
   period: "Aug. 2017 – May 2021",
   concentrations: ["AI/ML", "Product Development", "Strategic Finance", "Venture Valuation"],
 };
+
+export const testimonials = [
+  {
+    id: 1,
+    name: "Sarah Chen",
+    position: "CTO at TechStart",
+    company: "TechStart",
+    content: "Arham brought a rare mix of strategic thinking and technical execution. He quickly understood our goals and delivered a solution that exceeded expectations. We saw measurable improvements in our system performance and user engagement.",
+    image: "/images/testimonial-1.jpg", // Placeholder
+  },
+  {
+    id: 2,
+    name: "Michael Rodriguez",
+    position: "Product Manager at DataFlow",
+    company: "DataFlow",
+    content: "Working with Arham changed how we approach development. His expertise in both frontend and backend, combined with his understanding of AI/ML, helped us build features we didn't think were possible in our timeline.",
+    image: "/images/testimonial-2.jpg", // Placeholder
+  },
+  {
+    id: 3,
+    name: "Emily Thompson",
+    position: "Founder at FinTech Solutions",
+    company: "FinTech Solutions",
+    content: "Arham's ability to understand complex financial models and translate them into working software is outstanding. He helped us build our Monte Carlo simulation platform that's now used by our clients daily.",
+    image: "/images/testimonial-3.jpg", // Placeholder
+  },
+];
