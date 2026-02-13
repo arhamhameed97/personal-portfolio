@@ -84,40 +84,28 @@ const Hero = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-5rem)]">
           {/* Left Column - Content */}
-          <motion.div
+          <div
             ref={contentRef}
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
             className="will-change-transform z-20"
           >
             {/* Main Heading */}
-            <motion.h1
+            <h1
               className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-gray-900"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
             >
               Full-Stack Developer & AI/ML Engineer
-            </motion.h1>
+            </h1>
 
             {/* Subtitle */}
-            <motion.p
+            <p
               className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
             >
               Building scalable web applications and AI-powered solutions that drive results. 
               From teaching 100+ students to serving 3000+ enterprise clients.
-            </motion.p>
+            </p>
 
             {/* CTA Buttons */}
-            <motion.div
+            <div
               className="flex flex-wrap items-center gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
             >
               <motion.button
                 onClick={scrollToWork}
@@ -135,14 +123,11 @@ const Hero = () => {
               >
                 Get in Touch
               </motion.a>
-            </motion.div>
+            </div>
 
             {/* Companies/Education Tags */}
-            <motion.div
+            <div
               className="mt-12 pt-8 border-t border-gray-200"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
             >
               <p className="text-xs text-gray-500 mb-4 uppercase tracking-wider">
                 Education & Experience
@@ -158,15 +143,12 @@ const Hero = () => {
                   ClinCapture
                 </span>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
           {/* Right Column - Image with Seamless Blending */}
-          <motion.div
+          <div
             ref={imageRef}
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3, duration: 1 }}
             className="relative h-[500px] lg:h-[700px] will-change-transform"
           >
             {/* Image with gradient masks for seamless blending */}
