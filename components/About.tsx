@@ -50,7 +50,7 @@ const About = () => {
   }, []);
 
   return (
-    <section id="about" className="relative py-20 md:py-32" style={{ backgroundColor: "#f0f0f0" }}>
+    <section id="about" className="relative py-20 md:py-32">
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         <motion.div
           ref={ref}
