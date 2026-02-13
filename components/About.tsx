@@ -73,12 +73,12 @@ const About = () => {
             {/* Right Column - Description */}
             <div className="space-y-6">
               <p className="text-lg text-gray-600 leading-relaxed">
-                I&apos;m a full-stack developer with a unique blend of technical expertise and business acumen. 
+                I&apos;m a full-stack developer and software programming instructor with a unique blend of technical expertise and business acumen. 
                 Graduated from Minerva University with concentrations in AI/ML, Product Development, and Strategic Finance.
               </p>
               <p className="text-lg text-gray-600 leading-relaxed">
-                Currently teaching 100+ students across 8+ programming languages while building production-grade applications 
-                serving 1000+ users with 99.9% uptime.
+                As an instructor at Code With Us, I teach 100+ students across 8+ programming languages (Python, JavaScript, Java, C#, React, Unity) 
+                while building production-grade applications serving 1000+ users with 99.9% uptime.
               </p>
               <p className="text-lg text-gray-600 leading-relaxed">
                 My work focuses on creating scalable solutions that bridge technology and finance, with a track record of 

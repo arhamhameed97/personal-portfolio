@@ -1,6 +1,6 @@
 export const personalInfo = {
   name: "Arham Hameed",
-  title: "Full-Stack Developer | AI/ML Enthusiast | Fintech Innovator",
+  title: "Full-Stack Developer | AI/ML Enthusiast | Software Programming Instructor",
   location: "San Francisco, CA",
   email: "arham.hameed@uni.minerva.edu",
   phone: "646.777.6394",
@@ -9,7 +9,7 @@ export const personalInfo = {
 };
 
 export const about = {
-  bio: "Full-stack developer with a unique blend of technical expertise and business acumen. Graduated from Minerva University with concentrations in AI/ML, Product Development, and Strategic Finance. Currently teaching 100+ students across 8+ programming languages while building production-grade applications serving 1000+ users. Passionate about creating scalable solutions that bridge technology and finance.",
+  bio: "Full-stack developer and software programming instructor with a unique blend of technical expertise and business acumen. Graduated from Minerva University with concentrations in AI/ML, Product Development, and Strategic Finance. Currently teaching 100+ students across 8+ programming languages while building production-grade applications serving 1000+ users. Passionate about creating scalable solutions that bridge technology and finance.",
   achievements: [
     { number: "100+", label: "Students Taught" },
     { number: "3000+", label: "Enterprise Clients Supported" },

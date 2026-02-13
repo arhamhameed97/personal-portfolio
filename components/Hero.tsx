@@ -21,31 +21,46 @@ const Hero = () => {
     const ctx = gsap.context(() => {
       // Image morphing - scale and fade on scroll
       if (imageRef.current) {
-        gsap.to(imageRef.current, {
-          scale: 1.3,
-          y: 100,
-          opacity: 0.5,
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
+        gsap.fromTo(
+          imageRef.current,
+          {
+            scale: 1,
+            y: 0,
+            opacity: 1,
           },
-        });
+          {
+            scale: 1.3,
+            y: 100,
+            opacity: 0.5,
+            scrollTrigger: {
+              trigger: heroRef.current,
+              start: "top top",
+              end: "bottom top",
+              scrub: 1,
+            },
+          }
+        );
       }
 
       // Content parallax - slower fade
       if (contentRef.current) {
-        gsap.to(contentRef.current, {
-          y: -50,
-          opacity: 0,
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
+        gsap.fromTo(
+          contentRef.current,
+          {
+            y: 0,
+            opacity: 1,
           },
-        });
+          {
+            y: -50,
+            opacity: 0,
+            scrollTrigger: {
+              trigger: heroRef.current,
+              start: "top top",
+              end: "bottom top",
+              scrub: 1,
+            },
+          }
+        );
       }
     }, heroRef);
 
