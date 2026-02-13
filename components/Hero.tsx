@@ -13,21 +13,18 @@ if (typeof window !== "undefined") {
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
-  const headingRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const buttonsRef = useRef<HTMLDivElement>(null);
-  const companiesRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!heroRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Image morphing and scaling effect
+      // Image morphing - scale and fade on scroll
       if (imageRef.current) {
         gsap.to(imageRef.current, {
-          scale: 1.2,
-          y: 150,
-          opacity: 0.3,
+          scale: 1.3,
+          y: 100,
+          opacity: 0.5,
           scrollTrigger: {
             trigger: heroRef.current,
             start: "top top",
@@ -37,49 +34,10 @@ const Hero = () => {
         });
       }
 
-      // Parallax fade out effect on hero content
-      if (headingRef.current) {
-        gsap.to(headingRef.current, {
-          y: -100,
-          opacity: 0,
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
-          },
-        });
-      }
-
-      if (subtitleRef.current) {
-        gsap.to(subtitleRef.current, {
-          y: -80,
-          opacity: 0,
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
-          },
-        });
-      }
-
-      if (buttonsRef.current) {
-        gsap.to(buttonsRef.current, {
-          y: -60,
-          opacity: 0,
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
-          },
-        });
-      }
-
-      if (companiesRef.current) {
-        gsap.to(companiesRef.current, {
-          y: -40,
+      // Content parallax - slower fade
+      if (contentRef.current) {
+        gsap.to(contentRef.current, {
+          y: -50,
           opacity: 0,
           scrollTrigger: {
             trigger: heroRef.current,
@@ -105,111 +63,114 @@ const Hero = () => {
     <section
       id="home"
       ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
+      className="relative min-h-screen flex items-center overflow-hidden pt-20 bg-white"
     >
-      {/* Background Image with Morphing Effect */}
-      <motion.div
-        ref={imageRef}
-        className="absolute inset-0 will-change-transform"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/80 to-white z-10" />
-        <img 
-          src="/images/headshot.jpg" 
-          alt="Arham Hameed"
-          className="w-full h-full object-cover object-center grayscale opacity-20"
-        />
-      </motion.div>
-
-      <div className="relative z-20 max-w-7xl mx-auto px-6 md:px-8 lg:px-12 py-20 md:py-32">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center max-w-5xl mx-auto"
-        >
-          {/* Main Heading with parallax */}
-          <motion.h1
-            ref={headingRef}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight will-change-transform"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-          >
-            Full-Stack Developer & AI/ML Engineer
-          </motion.h1>
-
-          {/* Subtitle with parallax */}
-          <motion.p
-            ref={subtitleRef}
-            className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed will-change-transform"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-          >
-            Building scalable web applications and AI-powered solutions that drive results. 
-            From teaching 100+ students to serving 3000+ enterprise clients.
-          </motion.p>
-
-          {/* CTA Buttons with parallax */}
+      <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-5rem)]">
+          {/* Left Column - Content */}
           <motion.div
-            ref={buttonsRef}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 will-change-transform"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
+            ref={contentRef}
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="will-change-transform z-20"
           >
-            <motion.button
-              onClick={scrollToWork}
-              className="px-8 py-4 bg-gray-900 text-white font-medium text-lg rounded-full hover:bg-gray-800 transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            {/* Main Heading */}
+            <motion.h1
+              className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-gray-900"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
             >
-              View Work
-            </motion.button>
-            <motion.a
-              href="mailto:arham.hameed@uni.minerva.edu"
-              className="px-8 py-4 border-2 border-gray-900 text-gray-900 font-medium text-lg rounded-full hover:bg-gray-50 transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              Full-Stack Developer & AI/ML Engineer
+            </motion.h1>
+
+            {/* Subtitle */}
+            <motion.p
+              className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
             >
-              Get in Touch
-            </motion.a>
+              Building scalable web applications and AI-powered solutions that drive results. 
+              From teaching 100+ students to serving 3000+ enterprise clients.
+            </motion.p>
+
+            {/* CTA Buttons */}
+            <motion.div
+              className="flex flex-wrap items-center gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+            >
+              <motion.button
+                onClick={scrollToWork}
+                className="px-8 py-4 bg-gray-900 text-white font-medium text-base rounded-full hover:bg-gray-800 transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                View Work
+              </motion.button>
+              <motion.a
+                href="mailto:arham.hameed@uni.minerva.edu"
+                className="px-8 py-4 border-2 border-gray-900 text-gray-900 font-medium text-base rounded-full hover:bg-gray-50 transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Get in Touch
+              </motion.a>
+            </motion.div>
+
+            {/* Companies/Education Tags */}
+            <motion.div
+              className="mt-12 pt-8 border-t border-gray-200"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8, duration: 0.8 }}
+            >
+              <p className="text-xs text-gray-500 mb-4 uppercase tracking-wider">
+                Education & Experience
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <span className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">
+                  Minerva University
+                </span>
+                <span className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">
+                  Code With Us
+                </span>
+                <span className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">
+                  ClinCapture
+                </span>
+              </div>
+            </motion.div>
           </motion.div>
 
-          {/* Clients/Companies Section with parallax */}
+          {/* Right Column - Image with Morphing */}
           <motion.div
-            ref={companiesRef}
-            className="mt-20 pt-12 border-t border-gray-200 will-change-transform"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8, duration: 0.8 }}
+            ref={imageRef}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 1 }}
+            className="relative h-[500px] lg:h-[600px] will-change-transform"
           >
-            <p className="text-sm text-gray-500 mb-8 uppercase tracking-wider">
-              Education & Experience
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 text-gray-400">
-              <div className="text-center">
-                <div className="text-lg font-semibold text-gray-700">Minerva University</div>
-                <div className="text-sm text-gray-500">CS & Finance</div>
-              </div>
-              <div className="text-center">
-                <div className="text-lg font-semibold text-gray-700">Code With Us</div>
-                <div className="text-sm text-gray-500">Instructor</div>
-              </div>
-              <div className="text-center">
-                <div className="text-lg font-semibold text-gray-700">Minerva Project</div>
-                <div className="text-sm text-gray-500">Product Team</div>
-              </div>
-              <div className="text-center">
-                <div className="text-lg font-semibold text-gray-700">ClinCapture</div>
-                <div className="text-sm text-gray-500">Analytics</div>
-              </div>
+            {/* Blend gradient on left edge */}
+            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10" />
+            
+            {/* Image Container */}
+            <div className="relative h-full rounded-3xl overflow-hidden shadow-2xl">
+              <img 
+                src="/images/headshot.jpg" 
+                alt="Arham Hameed"
+                className="w-full h-full object-cover object-center"
+              />
+              {/* Subtle overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/20 to-transparent" />
             </div>
+
+            {/* Decorative element */}
+            <div className="absolute -bottom-6 -right-6 w-full h-full border-2 border-gray-200 rounded-3xl -z-10" />
           </motion.div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
