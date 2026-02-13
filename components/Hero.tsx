@@ -63,7 +63,8 @@ const Hero = () => {
     <section
       id="home"
       ref={heroRef}
-      className="relative min-h-screen flex items-center overflow-hidden pt-20 bg-white"
+      className="relative min-h-screen flex items-center overflow-hidden pt-20"
+      style={{ backgroundColor: "#fafafa" }}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-5rem)]">
@@ -145,30 +146,28 @@ const Hero = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right Column - Image with Morphing */}
+          {/* Right Column - Image with Seamless Blending */}
           <motion.div
             ref={imageRef}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 1 }}
-            className="relative h-[500px] lg:h-[600px] will-change-transform"
+            className="relative h-[500px] lg:h-[700px] will-change-transform"
           >
-            {/* Blend gradient on left edge */}
-            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10" />
-            
-            {/* Image Container */}
-            <div className="relative h-full rounded-3xl overflow-hidden shadow-2xl">
+            {/* Image with gradient masks for seamless blending */}
+            <div className="relative h-full">
               <img 
                 src="/images/headshot.jpg" 
                 alt="Arham Hameed"
                 className="w-full h-full object-cover object-center"
+                style={{
+                  maskImage: "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to bottom, black 80%, transparent 100%)",
+                  WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to bottom, black 80%, transparent 100%)",
+                  maskComposite: "intersect",
+                  WebkitMaskComposite: "source-in"
+                }}
               />
-              {/* Subtle overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/20 to-transparent" />
             </div>
-
-            {/* Decorative element */}
-            <div className="absolute -bottom-6 -right-6 w-full h-full border-2 border-gray-200 rounded-3xl -z-10" />
           </motion.div>
         </div>
       </div>
