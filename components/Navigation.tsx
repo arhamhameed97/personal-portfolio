@@ -17,10 +17,20 @@ const Navigation = () => {
     { name: "Contact", href: "#contact" },
   ];
 
-  // Determine if background is dark
-  const isDark = backgroundColor && (backgroundColor.includes("rgb") 
-    ? parseInt(backgroundColor.split(",")[0].split("(")[1]) < 128
-    : parseInt(backgroundColor.substring(1, 3), 16) < 128);
+  // Get contrasting nav background based on current page background
+  // Make it semi-transparent for a modern glassmorphism effect
+  const getNavBackground = () => {
+    if (!isScrolled) return "transparent";
+    
+    // Parse the background color and add opacity (0.9 for better contrast)
+    if (backgroundColor.startsWith("rgb")) {
+      const rgb = backgroundColor.match(/\d+/g);
+      if (rgb) {
+        return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.9)`;
+      }
+    }
+    return "rgba(229, 229, 229, 0.9)";
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,12 +58,15 @@ const Navigation = () => {
         transition={{ duration: 0.5 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? isDark 
-              ? "bg-black/80 backdrop-blur-md border-b border-white/10"
-              : "bg-white/80 backdrop-blur-md border-b border-gray-200"
-            : "bg-transparent"
+            ? "backdrop-blur-md"
+            : ""
         }`}
-        style={{ color: textColor }}
+        style={{
+          backgroundColor: getNavBackground(),
+          borderBottom: isScrolled 
+            ? `1px solid ${textColor === "#ffffff" ? "rgba(255, 255, 255, 0.1)" : "rgba(10, 10, 10, 0.1)"}` 
+            : "none"
+        }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
           <div className="flex items-center justify-between h-20">
@@ -64,8 +77,7 @@ const Navigation = () => {
                 e.preventDefault();
                 scrollToSection("#home");
               }}
-              className="text-xl font-bold cursor-pointer transition-colors"
-              style={{ color: textColor, opacity: 0.9 }}
+              className="text-xl font-bold cursor-pointer transition-colors text-gradient"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -83,7 +95,7 @@ const Navigation = () => {
                     scrollToSection(item.href);
                   }}
                   className="text-sm font-medium transition-colors cursor-pointer"
-                  style={{ color: textColor, opacity: 0.8 }}
+                  style={{ color: "var(--text-secondary)" }}
                   whileHover={{ y: -2 }}
                 >
                   {item.name}
@@ -94,9 +106,11 @@ const Navigation = () => {
             {/* CTA Button */}
             <motion.a
               href="mailto:arham.hameed@uni.minerva.edu"
-              className={`hidden md:block px-6 py-2.5 text-sm font-medium rounded-full transition-colors ${
-                isDark ? "bg-white text-black hover:bg-gray-200" : "bg-gray-900 text-white hover:bg-gray-800"
-              }`}
+              className="hidden md:block px-6 py-2.5 text-sm font-medium rounded-full transition-all"
+              style={{ 
+                background: textColor === "#ffffff" ? "#f5f5f5" : "#262626",
+                color: textColor === "#ffffff" ? "#0a0a0a" : "#ffffff"
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -106,7 +120,7 @@ const Navigation = () => {
             {/* Mobile Menu Button */}
             <motion.button
               className="md:hidden text-2xl"
-              style={{ color: textColor }}
+              style={{ color: "var(--text-primary)" }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               whileTap={{ scale: 0.9 }}
             >
@@ -125,7 +139,7 @@ const Navigation = () => {
           transition={{ duration: 0.3 }}
           className="fixed inset-0 z-40 md:hidden"
         >
-          <div className="fixed inset-0 bg-white">
+          <div className="fixed inset-0" style={{ background: "var(--background)" }}>
             <div className="flex flex-col items-start justify-center h-full px-6 space-y-8">
               {navItems.map((item, index) => (
                 <motion.a
@@ -138,7 +152,8 @@ const Navigation = () => {
                   initial={{ opacity: 0, x: 50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="text-3xl font-medium text-gray-900 cursor-pointer"
+                  className="text-3xl font-medium cursor-pointer"
+                  style={{ color: "var(--text-primary)" }}
                 >
                   {item.name}
                 </motion.a>
@@ -148,7 +163,11 @@ const Navigation = () => {
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: navItems.length * 0.1 }}
-                className="px-8 py-3 bg-gray-900 text-white font-medium text-xl rounded-full"
+                className="px-8 py-3 font-medium text-xl rounded-full"
+                style={{ 
+                  background: textColor === "#ffffff" ? "#f5f5f5" : "#262626",
+                  color: textColor === "#ffffff" ? "#0a0a0a" : "#ffffff"
+                }}
               >
                 Get in Touch
               </motion.a>

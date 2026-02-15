@@ -11,6 +11,21 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        primary: {
+          DEFAULT: "var(--primary)",
+          light: "var(--primary-light)",
+          dark: "var(--primary-dark)",
+        },
+        accent: {
+          DEFAULT: "var(--accent)",
+          light: "var(--accent-light)",
+          dark: "var(--accent-dark)",
+        },
+        surface: {
+          DEFAULT: "var(--surface)",
+          light: "var(--surface-light)",
+          lighter: "var(--surface-lighter)",
+        },
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

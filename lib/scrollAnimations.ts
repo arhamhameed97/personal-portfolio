@@ -29,6 +29,59 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
   } : null;
 }
 
+// Parse RGB string to RGB object
+function parseRgbString(rgb: string): { r: number; g: number; b: number } | null {
+  const match = rgb.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+  return match ? {
+    r: parseInt(match[1], 10),
+    g: parseInt(match[2], 10),
+    b: parseInt(match[3], 10)
+  } : null;
+}
+
+// Calculate luminance of a color to determine if it's light or dark
+export function calculateLuminance(color: string): number {
+  const rgb = hexToRgb(color) || parseRgbString(color);
+  if (!rgb) return 0.5; // Default to middle luminance
+  
+  // Convert to relative luminance (0-1)
+  const r = rgb.r / 255;
+  const g = rgb.g / 255;
+  const b = rgb.b / 255;
+  
+  // Apply gamma correction
+  const rLinear = r <= 0.03928 ? r / 12.92 : Math.pow((r + 0.055) / 1.055, 2.4);
+  const gLinear = g <= 0.03928 ? g / 12.92 : Math.pow((g + 0.055) / 1.055, 2.4);
+  const bLinear = b <= 0.03928 ? b / 12.92 : Math.pow((b + 0.055) / 1.055, 2.4);
+  
+  // Calculate luminance using ITU-R BT.709 coefficients
+  return 0.2126 * rLinear + 0.7152 * gLinear + 0.0722 * bLinear;
+}
+
+// Get text color based on background luminance for optimal contrast
+export function getContrastTextColor(backgroundColor: string): string {
+  const luminance = calculateLuminance(backgroundColor);
+  // Use WCAG recommended threshold
+  // Adjusted threshold to 0.4 for better visual balance
+  return luminance > 0.4 ? "#0a0a0a" : "#ffffff";
+}
+
+// Get secondary text color with reduced opacity/contrast
+export function getSecondaryTextColor(backgroundColor: string): string {
+  const luminance = calculateLuminance(backgroundColor);
+  // For light backgrounds: darker gray
+  // For dark backgrounds: lighter gray
+  return luminance > 0.4 ? "#3a3a3a" : "#d0d0d0";
+}
+
+// Get muted text color with even more reduced contrast
+export function getMutedTextColor(backgroundColor: string): string {
+  const luminance = calculateLuminance(backgroundColor);
+  // For light backgrounds: medium gray
+  // For dark backgrounds: medium light gray
+  return luminance > 0.4 ? "#666666" : "#999999";
+}
+
 // Fade in animation
 export function fadeIn(element: HTMLElement | string, options = {}) {
   return gsap.from(element, {

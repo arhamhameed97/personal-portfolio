@@ -25,21 +25,21 @@ const Experience = () => {
     const ctx = gsap.context(() => {
       const items = timelineRef.current?.querySelectorAll(".experience-item");
       if (items) {
-        items.forEach((item, index) => {
+        items.forEach((item) => {
           gsap.fromTo(
             item,
             {
-              x: index % 2 === 0 ? -50 : 50,
+              y: 30,
               opacity: 0,
             },
             {
-              x: 0,
+              y: 0,
               opacity: 1,
-              duration: 0.8,
+              duration: 0.9,
               ease: "power2.out",
               scrollTrigger: {
                 trigger: item,
-                start: "top 80%",
+                start: "top 82%",
                 toggleActions: "play none none none",
               },
             }
@@ -52,7 +52,7 @@ const Experience = () => {
   }, []);
 
   return (
-    <section id="experience" className="relative py-20 md:py-32">
+    <section id="experience" className="relative py-20 md:py-32" style={{ background: "var(--background)" }}>
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         <motion.div
           ref={ref}
@@ -64,7 +64,7 @@ const Experience = () => {
           <div className="section-number mb-4">5  |  Experience</div>
 
           {/* Section Title */}
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-16 max-w-4xl">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-16 max-w-4xl" style={{ color: "var(--text-primary)" }}>
             Professional journey
           </h2>
 
@@ -109,24 +109,24 @@ const ExperienceCard = ({ experience, index, inView }: ExperienceCardProps) => {
     >
       {/* Left Column - Company & Period */}
       <div>
-        <h3 className="text-2xl font-bold mb-2">
+        <h3 className="text-2xl font-bold mb-2 text-gradient">
           {experience.company}
         </h3>
-        <div className="text-gray-600 mb-2">{experience.position}</div>
-        <div className="text-sm text-gray-500">{experience.period}</div>
-        <div className="text-sm text-gray-500">{experience.location}</div>
+        <div className="mb-2" style={{ color: "var(--text-secondary)" }}>{experience.position}</div>
+        <div className="text-sm" style={{ color: "var(--text-muted)" }}>{experience.period}</div>
+        <div className="text-sm" style={{ color: "var(--text-muted)" }}>{experience.location}</div>
       </div>
 
       {/* Right Column - Description & Achievements */}
       <div className="lg:col-span-2">
-        <p className="text-gray-700 mb-6 leading-relaxed">
+        <p className="mb-6 leading-relaxed" style={{ color: "var(--text-secondary)" }}>
           {experience.description}
         </p>
         <ul className="space-y-3">
           {experience.achievements.map((achievement, i) => (
             <li key={i} className="flex items-start gap-3">
-              <div className="w-1.5 h-1.5 bg-gray-900 rounded-full mt-2 flex-shrink-0" />
-              <span className="text-gray-600">{achievement}</span>
+              <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: "var(--slate-300)" }} />
+              <span style={{ color: "var(--text-secondary)" }}>{achievement}</span>
             </li>
           ))}
         </ul>

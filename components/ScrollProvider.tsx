@@ -2,12 +2,19 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { colorZones } from "@/lib/scrollConfig";
-import { interpolateColor } from "@/lib/scrollAnimations";
+import { 
+  interpolateColor, 
+  getContrastTextColor, 
+  getSecondaryTextColor,
+  getMutedTextColor 
+} from "@/lib/scrollAnimations";
 
 interface ScrollContextType {
   scrollY: number;
   backgroundColor: string;
   textColor: string;
+  secondaryTextColor: string;
+  mutedTextColor: string;
   scrollProgress: number;
 }
 
@@ -15,6 +22,8 @@ const ScrollContext = createContext<ScrollContextType>({
   scrollY: 0,
   backgroundColor: "#ffffff",
   textColor: "#0a0a0a",
+  secondaryTextColor: "#3a3a3a",
+  mutedTextColor: "#666666",
   scrollProgress: 0,
 });
 
@@ -28,6 +37,8 @@ export default function ScrollProvider({ children }: ScrollProviderProps) {
   const [scrollY, setScrollY] = useState(0);
   const [backgroundColor, setBackgroundColor] = useState("#ffffff");
   const [textColor, setTextColor] = useState("#0a0a0a");
+  const [secondaryTextColor, setSecondaryTextColor] = useState("#3a3a3a");
+  const [mutedTextColor, setMutedTextColor] = useState("#666666");
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
@@ -45,20 +56,26 @@ export default function ScrollProvider({ children }: ScrollProviderProps) {
 
       // Find the appropriate color zone
       let newBackgroundColor = "#ffffff";
-      let newTextColor = "#0a0a0a";
 
       for (const zone of colorZones) {
         if (scrollVH >= zone.start && scrollVH < zone.end) {
           // Calculate the progress within this zone
           const zoneProgress = (scrollVH - zone.start) / (zone.end - zone.start);
           newBackgroundColor = interpolateColor(zone.startColor, zone.endColor, zoneProgress);
-          newTextColor = zone.textColor;
           break;
         }
       }
 
+      // Calculate all text colors based on background luminance for proper contrast
+      // This ensures text is always readable regardless of scroll position
+      const newTextColor = getContrastTextColor(newBackgroundColor);
+      const newSecondaryTextColor = getSecondaryTextColor(newBackgroundColor);
+      const newMutedTextColor = getMutedTextColor(newBackgroundColor);
+
       setBackgroundColor(newBackgroundColor);
       setTextColor(newTextColor);
+      setSecondaryTextColor(newSecondaryTextColor);
+      setMutedTextColor(newMutedTextColor);
     };
 
     // Initial call
@@ -73,13 +90,25 @@ export default function ScrollProvider({ children }: ScrollProviderProps) {
   }, []);
 
   return (
-    <ScrollContext.Provider value={{ scrollY, backgroundColor, textColor, scrollProgress }}>
+    <ScrollContext.Provider value={{ 
+      scrollY, 
+      backgroundColor, 
+      textColor, 
+      secondaryTextColor,
+      mutedTextColor,
+      scrollProgress 
+    }}>
       <div
         style={{
           backgroundColor: backgroundColor,
           color: textColor,
           transition: "background-color 0.3s ease, color 0.3s ease",
           minHeight: "100vh",
+          // Update CSS variables dynamically for consistent contrast
+          ["--text-primary" as string]: textColor,
+          ["--text-secondary" as string]: secondaryTextColor,
+          ["--text-muted" as string]: mutedTextColor,
+          ["--background" as string]: backgroundColor,
         }}
       >
         {children}

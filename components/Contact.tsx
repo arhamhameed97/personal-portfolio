@@ -29,18 +29,18 @@ const Contact = () => {
         gsap.fromTo(
           elements,
           {
-            y: 30,
+            y: 25,
             opacity: 0,
           },
           {
             y: 0,
             opacity: 1,
-            duration: 0.6,
-            stagger: 0.1,
+            duration: 0.8,
+            stagger: 0.15,
             ease: "power2.out",
             scrollTrigger: {
               trigger: contentRef.current,
-              start: "top 70%",
+              start: "top 75%",
               toggleActions: "play none none none",
             },
           }
@@ -52,7 +52,7 @@ const Contact = () => {
   }, []);
 
   return (
-    <section id="contact" className="relative py-20 md:py-32">
+    <section id="contact" className="relative py-20 md:py-32" style={{ background: "var(--background)" }}>
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         <motion.div
           ref={ref}
@@ -67,10 +67,10 @@ const Contact = () => {
           <div ref={contentRef} className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mb-20">
             {/* Left Column */}
             <div className="contact-item">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8 text-gradient">
                 Let&apos;s work together
               </h2>
-              <p className="text-xl text-gray-600 leading-relaxed">
+              <p className="text-xl leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                 I&apos;m always interested in hearing about new projects and opportunities. 
                 Whether you need help with development, have a question, or just want to connect.
               </p>
@@ -79,38 +79,40 @@ const Contact = () => {
             {/* Right Column - Contact Info */}
             <div className="space-y-8">
               <div className="contact-item">
-                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                <h3 className="text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--text-muted)" }}>
                   Email
                 </h3>
                 <a
                   href={`mailto:${personalInfo.email}`}
-                  className="text-xl hover:text-gray-600 transition-colors"
+                  className="text-xl transition-colors"
+                  style={{ color: "var(--text-primary)" }}
                 >
                   {personalInfo.email}
                 </a>
               </div>
 
               <div className="contact-item">
-                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                <h3 className="text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--text-muted)" }}>
                   Phone
                 </h3>
                 <a
                   href={`tel:${personalInfo.phone}`}
-                  className="text-xl hover:text-gray-600 transition-colors"
+                  className="text-xl transition-colors"
+                  style={{ color: "var(--text-primary)" }}
                 >
                   {personalInfo.phone}
                 </a>
               </div>
 
               <div className="contact-item">
-                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                <h3 className="text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--text-muted)" }}>
                   Location
                 </h3>
-                <p className="text-xl">{personalInfo.location}</p>
+                <p className="text-xl" style={{ color: "var(--text-primary)" }}>{personalInfo.location}</p>
               </div>
 
               <div className="contact-item">
-                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+                <h3 className="text-sm font-semibold uppercase tracking-wider mb-4" style={{ color: "var(--text-muted)" }}>
                   Connect
                 </h3>
                 <div className="flex gap-4">
@@ -118,7 +120,8 @@ const Contact = () => {
                     href={personalInfo.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 border-2 border-gray-900 rounded-full flex items-center justify-center text-gray-900 hover:bg-gray-900 hover:text-white transition-colors"
+                    className="w-12 h-12 border-2 rounded-full flex items-center justify-center transition-all"
+                    style={{ borderColor: "var(--slate-300)", color: "var(--text-primary)" }}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                   >
@@ -128,7 +131,8 @@ const Contact = () => {
                     href={personalInfo.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 border-2 border-gray-900 rounded-full flex items-center justify-center text-gray-900 hover:bg-gray-900 hover:text-white transition-colors"
+                    className="w-12 h-12 border-2 rounded-full flex items-center justify-center transition-all"
+                    style={{ borderColor: "var(--slate-300)", color: "var(--text-primary)" }}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                   >
@@ -136,7 +140,8 @@ const Contact = () => {
                   </motion.a>
                   <motion.a
                     href={`mailto:${personalInfo.email}`}
-                    className="w-12 h-12 border-2 border-gray-900 rounded-full flex items-center justify-center text-gray-900 hover:bg-gray-900 hover:text-white transition-colors"
+                    className="w-12 h-12 border-2 rounded-full flex items-center justify-center transition-all"
+                    style={{ borderColor: "var(--slate-300)", color: "var(--text-primary)" }}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                   >
@@ -148,8 +153,8 @@ const Contact = () => {
           </div>
 
           {/* Footer */}
-          <div className="pt-12 border-t border-gray-200">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+          <div className="pt-12" style={{ borderTop: "1px solid var(--slate-700)" }}>
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm" style={{ color: "var(--text-muted)" }}>
               <p>© {new Date().getFullYear()} {personalInfo.name}. All rights reserved.</p>
               <p>Built with Next.js, TypeScript, and Tailwind CSS</p>
             </div>

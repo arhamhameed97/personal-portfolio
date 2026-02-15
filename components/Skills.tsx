@@ -28,18 +28,18 @@ const Skills = () => {
         gsap.fromTo(
           categories,
           {
-            x: -30,
+            y: 25,
             opacity: 0,
           },
           {
-            x: 0,
+            y: 0,
             opacity: 1,
-            duration: 0.6,
-            stagger: 0.12,
+            duration: 0.8,
+            stagger: 0.15,
             ease: "power2.out",
             scrollTrigger: {
               trigger: gridRef.current,
-              start: "top 70%",
+              start: "top 75%",
               toggleActions: "play none none none",
             },
           }
@@ -51,7 +51,7 @@ const Skills = () => {
   }, []);
 
   return (
-    <section id="skills" className="relative py-20 md:py-32">
+    <section id="skills" className="relative py-20 md:py-32" style={{ background: "var(--background)" }}>
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         <motion.div
           ref={ref}
@@ -63,10 +63,10 @@ const Skills = () => {
           <div className="section-number mb-4">4  |  Technical Expertise</div>
 
           {/* Section Title */}
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 max-w-4xl">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 max-w-4xl" style={{ color: "var(--text-primary)" }}>
             Technologies I work with
           </h2>
-          <p className="text-xl text-gray-600 mb-16 max-w-3xl">
+          <p className="text-xl mb-16 max-w-3xl" style={{ color: "var(--text-secondary)" }}>
             A comprehensive toolkit for building modern, scalable applications from frontend to backend, with expertise in AI/ML and data analytics.
           </p>
 
@@ -112,14 +112,15 @@ const SkillCategory = ({ category, items, index, inView }: SkillCategoryProps) =
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: 0.1 * index, duration: 0.6 }}
     >
-      <h3 className="text-lg font-semibold mb-4">
+      <h3 className="text-lg font-semibold mb-4 text-gradient">
         {categoryNames[category]}
       </h3>
       <div className="space-y-3">
         {items.map((skill) => (
           <div
             key={skill}
-            className="text-gray-600 hover:text-gray-900 transition-colors"
+            className="transition-colors"
+            style={{ color: "var(--text-secondary)" }}
           >
             {skill}
           </div>

@@ -28,20 +28,18 @@ const Testimonials = () => {
         gsap.fromTo(
           cards,
           {
-            y: 60,
+            y: 30,
             opacity: 0,
-            rotateX: 15,
           },
           {
             y: 0,
             opacity: 1,
-            rotateX: 0,
-            duration: 0.8,
-            stagger: 0.15,
+            duration: 0.9,
+            stagger: 0.2,
             ease: "power2.out",
             scrollTrigger: {
               trigger: gridRef.current,
-              start: "top 70%",
+              start: "top 75%",
               toggleActions: "play none none none",
             },
           }
@@ -53,7 +51,7 @@ const Testimonials = () => {
   }, []);
 
   return (
-    <section id="testimonials" className="relative py-20 md:py-32">
+    <section id="testimonials" className="relative py-20 md:py-32" style={{ background: "var(--background)" }}>
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         <motion.div
           ref={ref}
@@ -65,7 +63,7 @@ const Testimonials = () => {
           <div className="section-number mb-4">3  |  Testimonials</div>
 
           {/* Section Title */}
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-16 max-w-4xl">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-16 max-w-4xl" style={{ color: "var(--text-primary)" }}>
             What people say about working with me
           </h2>
 
@@ -108,21 +106,21 @@ const TestimonialCard = ({ testimonial, index, inView }: TestimonialCardProps) =
       transition={{ delay: 0.1 * index, duration: 0.6 }}
     >
       {/* Quote */}
-      <p className="text-gray-700 mb-6 leading-relaxed">
+      <p className="mb-6 leading-relaxed" style={{ color: "var(--text-secondary)" }}>
         &ldquo;{testimonial.content}&rdquo;
       </p>
 
       {/* Author */}
       <div className="flex items-center gap-4">
-        <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
-          <span className="text-gray-600 font-semibold text-lg">
+        <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: "var(--slate-100)", color: "var(--background)" }}>
+          <span className="font-semibold text-lg">
             {testimonial.name.split(" ").map((n) => n[0]).join("")}
           </span>
         </div>
         <div>
-          <div className="font-semibold">{testimonial.name}</div>
-          <div className="text-sm text-gray-600">{testimonial.position}</div>
-          <div className="text-sm text-gray-500">{testimonial.company}</div>
+          <div className="font-semibold" style={{ color: "var(--text-primary)" }}>{testimonial.name}</div>
+          <div className="text-sm" style={{ color: "var(--text-secondary)" }}>{testimonial.position}</div>
+          <div className="text-sm" style={{ color: "var(--text-muted)" }}>{testimonial.company}</div>
         </div>
       </div>
     </motion.div>

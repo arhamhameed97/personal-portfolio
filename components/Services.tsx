@@ -28,20 +28,20 @@ const Services = () => {
         gsap.fromTo(
           cards,
           {
-            y: 40,
+            y: 30,
             opacity: 0,
-            scale: 0.95,
+            scale: 0.97,
           },
           {
             y: 0,
             opacity: 1,
             scale: 1,
-            duration: 0.7,
-            stagger: 0.15,
-            ease: "back.out(1.2)",
+            duration: 0.9,
+            stagger: 0.2,
+            ease: "power2.out",
             scrollTrigger: {
               trigger: gridRef.current,
-              start: "top 70%",
+              start: "top 75%",
               toggleActions: "play none none none",
             },
           }
@@ -89,7 +89,7 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="relative py-20 md:py-32">
+    <section id="services" className="relative py-20 md:py-32" style={{ background: "var(--background)" }}>
       <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         <motion.div
           ref={ref}
@@ -101,10 +101,10 @@ const Services = () => {
           <div className="section-number mb-4">7  |  Services</div>
 
           {/* Section Title */}
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 max-w-4xl">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 max-w-4xl" style={{ color: "var(--text-primary)" }}>
             How I can help
           </h2>
-          <p className="text-xl text-gray-600 mb-16 max-w-3xl">
+          <p className="text-xl mb-16 max-w-3xl" style={{ color: "var(--text-secondary)" }}>
             Comprehensive development services to bring your ideas to life and scale your business.
           </p>
 
@@ -146,18 +146,18 @@ const ServiceCard = ({ service, index, inView }: ServiceCardProps) => {
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: 0.1 * index, duration: 0.6 }}
     >
-      <div className="w-12 h-12 bg-gray-900 text-white rounded-full flex items-center justify-center mb-6">
+      <div className="w-12 h-12 rounded-full flex items-center justify-center mb-6" style={{ background: "var(--slate-100)", color: "var(--background)" }}>
         <Icon size={24} />
       </div>
 
-      <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
-      <p className="text-gray-600 mb-6 leading-relaxed">{service.description}</p>
+      <h3 className="text-2xl font-bold mb-4" style={{ color: "var(--text-primary)" }}>{service.title}</h3>
+      <p className="mb-6 leading-relaxed" style={{ color: "var(--text-secondary)" }}>{service.description}</p>
 
       <ul className="space-y-3">
         {service.features.map((feature) => (
           <li key={feature} className="flex items-start gap-3">
-            <div className="w-1.5 h-1.5 bg-gray-900 rounded-full mt-2 flex-shrink-0" />
-            <span className="text-gray-600">{feature}</span>
+            <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: "var(--slate-300)" }} />
+            <span style={{ color: "var(--text-secondary)" }}>{feature}</span>
           </li>
         ))}
       </ul>
