@@ -1,165 +1,176 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
 import { personalInfo } from "@/lib/data";
-import { FiMail, FiGithub, FiLinkedin } from "react-icons/fi";
+import { FiMail, FiGithub, FiLinkedin, FiArrowUpRight } from "react-icons/fi";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import TextReveal, { LineReveal } from "./TextReveal";
+import MagneticButton from "./MagneticButton";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
 const Contact = () => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const contentRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!contentRef.current) return;
+    if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      const elements = contentRef.current?.querySelectorAll(".contact-item");
-      if (elements) {
+      const items = sectionRef.current?.querySelectorAll(".contact-item");
+      if (items) {
         gsap.fromTo(
-          elements,
-          {
-            y: 25,
-            opacity: 0,
-          },
+          items,
+          { y: 30, opacity: 0 },
           {
             y: 0,
             opacity: 1,
             duration: 0.8,
-            stagger: 0.15,
-            ease: "power2.out",
+            stagger: 0.12,
+            ease: "power3.out",
             scrollTrigger: {
-              trigger: contentRef.current,
-              start: "top 75%",
+              trigger: sectionRef.current,
+              start: "top 70%",
               toggleActions: "play none none none",
             },
           }
         );
       }
-    }, contentRef);
+    }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section id="contact" className="relative py-20 md:py-32" style={{ background: "var(--background)" }}>
-      <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+    <section
+      id="contact"
+      ref={sectionRef}
+      className="relative py-24 md:py-36 noise-bg"
+      style={{ background: "var(--background)" }}
+    >
+      <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 relative z-10">
+        <div className="section-number mb-4">06 / Contact</div>
+
+        {/* Big heading */}
+        <TextReveal
+          as="h2"
+          className="font-heading text-5xl md:text-6xl lg:text-8xl font-extrabold leading-[1.05] mb-12"
+          style={{ color: "var(--text-primary)" }}
+          splitBy="word"
+          stagger={0.06}
         >
-          {/* Section Number */}
-          <div className="section-number mb-4">6  |  Get in Touch</div>
+          Let&apos;s work together
+        </TextReveal>
 
-          {/* Main Content */}
-          <div ref={contentRef} className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mb-20">
-            {/* Left Column */}
-            <div className="contact-item">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8 text-gradient">
-                Let&apos;s work together
-              </h2>
-              <p className="text-xl leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                I&apos;m always interested in hearing about new projects and opportunities. 
-                Whether you need help with development, have a question, or just want to connect.
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+          {/* Left: message */}
+          <div>
+            <LineReveal delay={0.2}>
+              <p
+                className="text-lg leading-relaxed mb-10"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                I&apos;m always interested in new challenges at the intersection
+                of technology and finance. Whether you need a developer, an
+                analyst, or a technical educator — let&apos;s talk.
               </p>
-            </div>
+            </LineReveal>
 
-            {/* Right Column - Contact Info */}
-            <div className="space-y-8">
-              <div className="contact-item">
-                <h3 className="text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--text-muted)" }}>
-                  Email
-                </h3>
-                <a
-                  href={`mailto:${personalInfo.email}`}
-                  className="text-xl transition-colors"
+            {/* Email CTA */}
+            <div className="contact-item mb-8">
+              <MagneticButton as="a" href={`mailto:${personalInfo.email}`} strength={0.15}>
+                <span
+                  className="font-heading text-2xl md:text-3xl font-bold transition-colors duration-300 hover:text-[var(--accent-warm)] flex items-center gap-3 cursor-none"
                   style={{ color: "var(--text-primary)" }}
                 >
                   {personalInfo.email}
-                </a>
-              </div>
+                  <FiArrowUpRight
+                    size={24}
+                    className="transition-transform duration-300 group-hover:rotate-45"
+                  />
+                </span>
+              </MagneticButton>
+            </div>
 
-              <div className="contact-item">
-                <h3 className="text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--text-muted)" }}>
-                  Phone
-                </h3>
-                <a
-                  href={`tel:${personalInfo.phone}`}
-                  className="text-xl transition-colors"
-                  style={{ color: "var(--text-primary)" }}
-                >
-                  {personalInfo.phone}
-                </a>
-              </div>
-
-              <div className="contact-item">
-                <h3 className="text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--text-muted)" }}>
-                  Location
-                </h3>
-                <p className="text-xl" style={{ color: "var(--text-primary)" }}>{personalInfo.location}</p>
-              </div>
-
-              <div className="contact-item">
-                <h3 className="text-sm font-semibold uppercase tracking-wider mb-4" style={{ color: "var(--text-muted)" }}>
-                  Connect
-                </h3>
-                <div className="flex gap-4">
-                  <motion.a
-                    href={personalInfo.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 border-2 rounded-full flex items-center justify-center transition-all"
-                    style={{ borderColor: "var(--slate-300)", color: "var(--text-primary)" }}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <FiGithub size={20} />
-                  </motion.a>
-                  <motion.a
-                    href={personalInfo.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 border-2 rounded-full flex items-center justify-center transition-all"
-                    style={{ borderColor: "var(--slate-300)", color: "var(--text-primary)" }}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <FiLinkedin size={20} />
-                  </motion.a>
-                  <motion.a
-                    href={`mailto:${personalInfo.email}`}
-                    className="w-12 h-12 border-2 rounded-full flex items-center justify-center transition-all"
-                    style={{ borderColor: "var(--slate-300)", color: "var(--text-primary)" }}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <FiMail size={20} />
-                  </motion.a>
-                </div>
-              </div>
+            {/* Phone */}
+            <div className="contact-item">
+              <a
+                href={`tel:${personalInfo.phone}`}
+                className="font-heading text-lg transition-colors duration-300 hover:text-[var(--accent-warm)] cursor-none"
+                style={{ color: "var(--text-muted)" }}
+              >
+                {personalInfo.phone}
+              </a>
             </div>
           </div>
 
-          {/* Footer */}
-          <div className="pt-12" style={{ borderTop: "1px solid var(--slate-700)" }}>
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm" style={{ color: "var(--text-muted)" }}>
-              <p>© {new Date().getFullYear()} {personalInfo.name}. All rights reserved.</p>
-              <p>Built with Next.js, TypeScript, and Tailwind CSS</p>
+          {/* Right: links + info */}
+          <div className="space-y-10">
+            <div className="contact-item">
+              <h3
+                className="font-heading text-xs font-semibold uppercase tracking-[0.2em] mb-5"
+                style={{ color: "var(--accent-warm)" }}
+              >
+                Connect
+              </h3>
+              <div className="flex gap-4">
+                {[
+                  { icon: FiGithub, href: personalInfo.github, label: "GitHub" },
+                  { icon: FiLinkedin, href: personalInfo.linkedin, label: "LinkedIn" },
+                  { icon: FiMail, href: `mailto:${personalInfo.email}`, label: "Email" },
+                ].map(({ icon: Icon, href, label }) => (
+                  <MagneticButton key={label} as="a" href={href} target="_blank" rel="noopener noreferrer" strength={0.3}>
+                    <div
+                      className="w-14 h-14 border rounded-full flex items-center justify-center transition-all duration-500 hover:border-[var(--accent-warm)] hover:bg-[rgba(201,169,110,0.08)] cursor-none group"
+                      style={{ borderColor: "var(--slate-700)" }}
+                    >
+                      <Icon
+                        size={20}
+                        className="transition-transform duration-300 group-hover:scale-110"
+                        style={{ color: "var(--text-primary)" }}
+                      />
+                    </div>
+                  </MagneticButton>
+                ))}
+              </div>
+            </div>
+
+            <div className="contact-item">
+              <h3
+                className="font-heading text-xs font-semibold uppercase tracking-[0.2em] mb-3"
+                style={{ color: "var(--accent-warm)" }}
+              >
+                Location
+              </h3>
+              <p
+                className="font-heading text-lg"
+                style={{ color: "var(--text-primary)" }}
+              >
+                {personalInfo.location}
+              </p>
+              <p className="text-sm mt-1" style={{ color: "var(--text-muted)" }}>
+                Open to remote & global opportunities
+              </p>
             </div>
           </div>
-        </motion.div>
+        </div>
+
+        {/* Footer */}
+        <div className="mt-24 pt-8" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+          <div
+            className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs"
+            style={{ color: "var(--text-muted)" }}
+          >
+            <p>
+              &copy; {new Date().getFullYear()} {personalInfo.name}
+            </p>
+            <p className="font-heading tracking-wider">
+              Built with Next.js, TypeScript & GSAP
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );

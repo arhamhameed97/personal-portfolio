@@ -1,132 +1,122 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
 import { skills } from "@/lib/data";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import TextReveal from "./TextReveal";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-const Skills = () => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+const categories = Object.entries(skills);
+const directions: ("left" | "right")[] = ["right", "left", "right", "left"];
+const speeds = ["35s", "40s", "32s", "38s"];
 
-  const gridRef = useRef<HTMLDivElement>(null);
+const Skills = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!gridRef.current) return;
+    if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      const categories = gridRef.current?.querySelectorAll(".skill-category");
-      if (categories) {
+      const rows = sectionRef.current?.querySelectorAll(".marquee-row");
+      if (rows) {
         gsap.fromTo(
-          categories,
+          rows,
+          { opacity: 0, y: 30 },
           {
-            y: 25,
-            opacity: 0,
-          },
-          {
-            y: 0,
             opacity: 1,
+            y: 0,
             duration: 0.8,
             stagger: 0.15,
-            ease: "power2.out",
+            ease: "power3.out",
             scrollTrigger: {
-              trigger: gridRef.current,
+              trigger: sectionRef.current,
               start: "top 75%",
               toggleActions: "play none none none",
             },
           }
         );
       }
-    }, gridRef);
+
+      const labels = sectionRef.current?.querySelectorAll(".category-label");
+      if (labels) {
+        gsap.fromTo(
+          labels,
+          { x: -20, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.6,
+            stagger: 0.1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 75%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+    }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section id="skills" className="relative py-20 md:py-32" style={{ background: "var(--background)" }}>
-      <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-        >
-          {/* Section Number */}
-          <div className="section-number mb-4">4  |  Technical Expertise</div>
-
-          {/* Section Title */}
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 max-w-4xl" style={{ color: "var(--text-primary)" }}>
-            Technologies I work with
-          </h2>
-          <p className="text-xl mb-16 max-w-3xl" style={{ color: "var(--text-secondary)" }}>
-            A comprehensive toolkit for building modern, scalable applications from frontend to backend, with expertise in AI/ML and data analytics.
-          </p>
-
-          {/* Skills Grid */}
-          <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {Object.entries(skills).map(([category, items], index) => (
-              <SkillCategory
-                key={category}
-                category={category}
-                items={items}
-                index={index}
-                inView={inView}
-              />
-            ))}
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-interface SkillCategoryProps {
-  category: string;
-  items: string[];
-  index: number;
-  inView: boolean;
-}
-
-const SkillCategory = ({ category, items, index, inView }: SkillCategoryProps) => {
-  const categoryNames: { [key: string]: string } = {
-    Languages: "Languages",
-    Frontend: "Frontend",
-    Backend: "Backend",
-    Tools: "Tools & Platforms",
-    DataScience: "Data Science",
-    Cloud: "Cloud & DevOps",
-  };
-
-  return (
-    <motion.div
-      className="skill-category"
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ delay: 0.1 * index, duration: 0.6 }}
+    <section
+      id="skills"
+      ref={sectionRef}
+      className="relative py-24 md:py-36 overflow-hidden"
+      style={{ background: "var(--background)" }}
     >
-      <h3 className="text-lg font-semibold mb-4 text-gradient">
-        {categoryNames[category]}
-      </h3>
-      <div className="space-y-3">
-        {items.map((skill) => (
-          <div
-            key={skill}
-            className="transition-colors"
-            style={{ color: "var(--text-secondary)" }}
-          >
-            {skill}
+      <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 mb-16">
+        <div className="section-number mb-4">04 / Expertise</div>
+        <TextReveal
+          as="h2"
+          className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold max-w-3xl"
+          style={{ color: "var(--text-primary)" }}
+        >
+          Technologies and skills
+        </TextReveal>
+      </div>
+
+      {/* Marquee rows */}
+      <div className="space-y-8">
+        {categories.map(([category, items], index) => (
+          <div key={category} className="marquee-row">
+            {/* Category label */}
+            <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 mb-3">
+              <span
+                className="category-label font-heading text-xs font-semibold tracking-[0.2em] uppercase"
+                style={{ color: "var(--accent-warm)" }}
+              >
+                {category}
+              </span>
+            </div>
+
+            {/* Infinite scroll row */}
+            <div
+              className={`marquee-${directions[index]} overflow-hidden`}
+              style={
+                { "--duration": speeds[index] } as React.CSSProperties
+              }
+            >
+              <div className="marquee-track">
+                {/* Duplicate content for seamless loop */}
+                {[...items, ...items].map((skill, i) => (
+                  <span key={`${skill}-${i}`} className="glass-pill mx-2 flex-shrink-0">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
         ))}
       </div>
-    </motion.div>
+    </section>
   );
 };
 
