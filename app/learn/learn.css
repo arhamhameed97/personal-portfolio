@@ -1,0 +1,188 @@
+/* ─────────────────────────────────────────────
+   /learn page — scoped design tokens & utilities
+   ───────────────────────────────────────────── */
+
+.learn-page {
+  --font-heading: var(--font-learn), "Nunito", sans-serif;
+  --font-body:    var(--font-learn), "Nunito", sans-serif;
+
+  --lp-bg:         #FAFBFF;
+  --lp-bg-alt:     #F5F2FF;
+  --lp-purple:     #5c2dde;
+  --lp-purple-dk:  #3d1fa3;
+  --lp-purple-lt:  #EDE8FF;
+  --lp-lime:       #c8f135;
+  --lp-lime-dk:    #a8cc1a;
+  --lp-navy:       #1a1f36;
+  --lp-muted:      #6B7280;
+  --lp-border:     rgba(92, 45, 222, 0.15);
+  --lp-yellow:     #FFE44D;
+  --lp-pink:       #FF6B9D;
+  --lp-orange:     #FF8C42;
+  --lp-green:      #34d399;
+
+  background: var(--lp-bg);
+  color: var(--lp-navy);
+
+  /* override dark portfolio globals inside learn page */
+  --background: var(--lp-bg);
+  --foreground: var(--lp-navy);
+}
+
+/* ── Scrollbar (light mode) ── */
+.learn-page ::-webkit-scrollbar-track {
+  background: var(--lp-bg);
+}
+.learn-page ::-webkit-scrollbar-thumb {
+  background: rgba(92, 45, 222, 0.25);
+}
+.learn-page ::-webkit-scrollbar-thumb:hover {
+  background: rgba(92, 45, 222, 0.45);
+}
+
+/* ── Selection ── */
+.learn-page ::selection {
+  background: var(--lp-purple);
+  color: #ffffff;
+}
+
+/* ── Blob shapes ── */
+.lp-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.lp-blob-purple {
+  background: rgba(92, 45, 222, 0.18);
+}
+
+.lp-blob-lime {
+  background: rgba(200, 241, 53, 0.35);
+}
+
+.lp-blob-yellow {
+  background: rgba(255, 228, 77, 0.4);
+}
+
+.lp-blob-pink {
+  background: rgba(255, 107, 157, 0.25);
+}
+
+/* ── Float animations for decorative icons ── */
+@keyframes lp-float-a {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-12px) rotate(4deg); }
+}
+@keyframes lp-float-b {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-8px) rotate(-5deg); }
+}
+@keyframes lp-float-c {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-14px) rotate(6deg); }
+}
+@keyframes lp-float-d {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-10px) rotate(-3deg); }
+}
+
+.lp-icon-float-a { animation: lp-float-a 4s ease-in-out infinite; }
+.lp-icon-float-b { animation: lp-float-b 5s ease-in-out infinite 0.8s; }
+.lp-icon-float-c { animation: lp-float-c 3.5s ease-in-out infinite 0.3s; }
+.lp-icon-float-d { animation: lp-float-d 4.5s ease-in-out infinite 1.2s; }
+
+/* ── Section label pill ── */
+.lp-section-label {
+  display: inline-block;
+  background: var(--lp-purple-lt);
+  color: var(--lp-purple);
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.35rem 1rem;
+  border-radius: 9999px;
+  margin-bottom: 1rem;
+}
+
+/* ── Highlight text block (lime underlay) ── */
+.lp-highlight {
+  position: relative;
+  display: inline;
+  background: var(--lp-lime);
+  padding: 0.05em 0.25em;
+  border-radius: 8px;
+  color: var(--lp-navy);
+}
+
+/* ── Pill tag (curriculum) ── */
+.lp-pill-purple {
+  display: inline-flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1.5px solid rgba(92, 45, 222, 0.3);
+  color: var(--lp-purple);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 0.45rem 1.1rem;
+  border-radius: 9999px;
+  white-space: nowrap;
+  transition: all 0.25s ease;
+}
+.lp-pill-purple:hover {
+  background: var(--lp-purple-lt);
+}
+
+.lp-pill-lime {
+  display: inline-flex;
+  align-items: center;
+  background: var(--lp-lime);
+  border: 1.5px solid var(--lp-lime-dk);
+  color: var(--lp-navy);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  padding: 0.45rem 1.1rem;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+
+/* ── White card (FAQ, Why) ── */
+.lp-card-white {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 2px 20px rgba(92, 45, 222, 0.07);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.lp-card-white:hover {
+  box-shadow: 0 8px 40px rgba(92, 45, 222, 0.13);
+  transform: translateY(-2px);
+}
+
+/* ── Custom cursor override: show system cursor on learn page ── */
+.learn-page * {
+  cursor: auto !important;
+}
+.learn-page a,
+.learn-page button {
+  cursor: pointer !important;
+}
+
+/* ── Wavy text underline ── */
+.lp-wavy {
+  text-decoration: underline wavy var(--lp-purple) 2px;
+  text-underline-offset: 6px;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .lp-icon-float-a,
+  .lp-icon-float-b,
+  .lp-icon-float-c,
+  .lp-icon-float-d {
+    animation: none;
+  }
+}

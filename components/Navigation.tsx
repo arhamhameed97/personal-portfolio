@@ -128,6 +128,13 @@ const Navigation = () => {
                   </a>
                 );
               })}
+              <a
+                href="/learn"
+                className="relative px-3 py-2 text-xs font-heading font-medium tracking-wider uppercase transition-colors duration-300 cursor-none"
+                style={{ color: "var(--accent-warm)" }}
+              >
+                Classes
+              </a>
             </div>
 
             <MagneticButton strength={0.15} className="hidden md:block">
@@ -185,6 +192,16 @@ const Navigation = () => {
                   {item.name}
                 </motion.a>
               ))}
+              <motion.a
+                href="/learn"
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.05 * navItems.length + 0.05 }}
+                className="font-heading text-3xl font-bold tracking-tight"
+                style={{ color: "var(--accent-warm)" }}
+              >
+                Classes
+              </motion.a>
               <motion.a
                 href="mailto:arham.hameed@uni.minerva.edu"
                 initial={{ opacity: 0, x: 50 }}
